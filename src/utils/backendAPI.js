@@ -6,7 +6,7 @@ export function getToken() {
 }
 
 export async function saveProgress(token, progressData) {
-  const saveKey = token || 'default';
+  const saveKey = typeof token === 'string' ? token.trim() : '';
   if (!saveKey) {
     console.warn('No saveKey available, skipping save');
     return null;
@@ -27,7 +27,7 @@ export async function saveProgress(token, progressData) {
 
     const result = await response.json();
     console.log('✓ Progress saved');
-    return result.ok ? progressData : null;
+    return result.data ?? null;
   } catch (error) {
     console.error('✗ Failed to save:', error.message);
     return null;
@@ -35,7 +35,7 @@ export async function saveProgress(token, progressData) {
 }
 
 export async function loadProgress(token) {
-  const saveKey = token || 'default';
+  const saveKey = typeof token === 'string' ? token.trim() : '';
   if (!saveKey) {
     console.warn('No saveKey available, skipping load');
     return null;
